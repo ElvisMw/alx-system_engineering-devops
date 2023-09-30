@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script displays numbers from 1 to 100 according to FizzBuzz rules.
+# The below  script shows numbers from 1- 100 according to FizzBuzz rules.
 
 # Use a for loop to iterate from 1 to 100
 for number in {1..100}
