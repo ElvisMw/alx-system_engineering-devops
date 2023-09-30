@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# This script stops the 7-highlander process without using kill.
+
+# Use pkill to send the SIGTERM signal to the 7-highlander process
+pkill -TERM -f "7-highlander"

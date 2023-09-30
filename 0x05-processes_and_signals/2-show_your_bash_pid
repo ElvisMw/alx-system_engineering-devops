@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# The following script displays lines that have the word "bash" to get the PID of your Bash process.
+
+# Ignore the SC2009 warning from ShellCheck
+# shellcheck disable=SC2009
+
+# Use the ps command to list processes that have "bash" and filter out the desired process
+ps aux | grep "bash" | grep -v "grep"
