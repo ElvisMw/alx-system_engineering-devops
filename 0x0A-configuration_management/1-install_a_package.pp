@@ -1,3 +1,4 @@
+#!/bin/bash/pup
 # 1-install_a_package.pp
 
 package { 'Flask':
