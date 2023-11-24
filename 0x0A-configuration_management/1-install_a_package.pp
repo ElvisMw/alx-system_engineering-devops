@@ -1,4 +1,4 @@
-#!/usr/bin/puppet
+#!/usr/bin/pup
 # 1-install_a_package.pp
 package { 'Flask':
   ensure    => '2.1.0',
