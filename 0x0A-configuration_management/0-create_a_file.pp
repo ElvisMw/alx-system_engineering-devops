@@ -1,4 +1,5 @@
 #!/bin/bash
+#Using Puppet, install flask from pip3.
 file { '/tmp/school':
 ensure  => present,
 content => 'I love Puppet',
