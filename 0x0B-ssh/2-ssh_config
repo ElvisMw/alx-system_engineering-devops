@@ -8,8 +8,7 @@ SERVER_IP=52.86.145.36
 cat <<EOF > ~/.ssh/config
 Host $SERVER_IP
     IdentityFile $PRIVATE_KEY_PATH
-        PasswordAuthentication no
-	EOF
+    PasswordAuthentication no
+EOF
 
-	echo "SSH client configuration updated for passwordless authentication."
-
+echo "SSH client configuration updated for passwordless authentication."
