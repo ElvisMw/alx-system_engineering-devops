@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 # Bash script that uses ssh to connect to your server using the private key ~/.ssh/school
 
-# ssh -i ~/.ssh/school -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@52.86.145.36
-
-# This script connects to the server using ssh with a private key.
-
-ssh -i "/c/Users/MWANTHI/.ssh/alx-system_engineering-devops/0x0B-ssh" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@52.86.145.36
+ssh -i ~/.ssh/school -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@52.86.145.36
 
