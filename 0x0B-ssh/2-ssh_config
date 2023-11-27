@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 # This script configures the SSH client for passwordless authentication
 
+#!/usr/bin/env bash
+# This script configures the SSH client for passwordless authentication
+
 PRIVATE_KEY_PATH=~/.ssh/school
-SERVER_IP=52.86.145.36
+SERVER_IP=18.207.3.157
+CONFIG_FILE=~/.ssh/config
 
 # Create or update the SSH configuration file
-cat <<EOF > ~/.ssh/config
-Host $SERVER_IP
-    IdentityFile $PRIVATE_KEY_PATH
-    PasswordAuthentication no
-EOF
+echo "Host $SERVER_IP" > "$CONFIG_FILE"
+echo "    IdentityFile $PRIVATE_KEY_PATH" >> "$CONFIG_FILE"
+echo "    PasswordAuthentication no" >> "$CONFIG_FILE"
 
 echo "SSH client configuration updated for passwordless authentication."
+
