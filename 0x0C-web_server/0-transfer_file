@@ -15,8 +15,8 @@ SSH_KEY_PATH="$4"
 scp -o StrictHostKeyChecking=no -i "$SSH_KEY_PATH" "$FILE_PATH" "$USERNAME@$SERVER_IP":~/ 
 
 # Check the exit status of scp
-if [ "$?" -eq 0 ]; then
-	    echo "File transfer successful!"
-    else
-	        echo "File transfer failed."
-fi 
+if scp -o StrictHostKeyChecking=no -i "$SSH_KEY_PATH" "$FILE_PATH" "$USERNAME@$SERVER_IP":~/; then
+    echo "File transfer successful!"
+else
+    echo "File transfer failed."
+fi
