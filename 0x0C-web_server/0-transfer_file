@@ -1,5 +1,4 @@
-#!/bin/env bash
-
+#!/usr/bin/env bash
 # Display usage if fewer than 4 parameters are passed
 if [ "$#" -lt 4 ]; then
 	    echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
@@ -12,7 +11,7 @@ SERVER_IP="$2"
 USERNAME="$3"
 SSH_KEY_PATH="$4"
 
-# Transfer the file using scp with strict host key checking disabled
+# Transfer the file using scp with strict host key checking disabled.
 scp -o StrictHostKeyChecking=no -i "$SSH_KEY_PATH" "$FILE_PATH" "$USERNAME@$SERVER_IP":~/ 
 
 # Check the exit status of scp
@@ -20,5 +19,4 @@ if [ "$?" -eq 0 ]; then
 	    echo "File transfer successful!"
     else
 	        echo "File transfer failed."
-fi
-
+fi 
