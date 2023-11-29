@@ -29,5 +29,5 @@ cat /var/log/apache2/error.log
 # Exit the container
 exit
 
-# Test with curl
-curl 0:8080
+# Make a curl request to the web server running on localhost:8080
+curl http://localhost:8080
