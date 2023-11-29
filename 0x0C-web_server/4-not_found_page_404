@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Define the path for the custom 404 page
+not_found_path="/custom_404"
+
+# Configure Nginx for custom 404 page
+sudo tee /etc/nginx/sites-available/default > /dev/null <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    error_page 404 $not_found_path;
+
+    location $not_found_path {
+        internal;
+        proxy_pass http://localhost/not_found.html;
+    }
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
+
+# Restart Nginx
+sudo service nginx restart
+
+# Create the custom 404 page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/not_found.html > /dev/null
+
+# Verify the custom 404 page
+if curl -sI http://localhost/xyz | grep -q "404 Not Found"; then
+    echo "Custom 404 page is configured successfully."
+else
+    echo "Custom 404 page configuration failed."
+fi

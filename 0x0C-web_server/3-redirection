@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Define the path for redirection
+redirect_path="/redirect_me"
+
+# Configure Nginx redirection
+sudo tee /etc/nginx/sites-available/default > /dev/null <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    location $redirect_path {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
+
+# Restart nginx
+sudo service nginx restart
+
+# Verify the redirection
+if curl -sI http://localhost$redirect_path | grep -q "301 Moved Permanently"; then
+    echo "Redirection is configured successfully."
+else
+    echo "Redirection configuration failed."
+fi
