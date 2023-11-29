@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Fix Apache to return a page containing Hello Holberton
+
+# Start the Docker container in interactive mode
+docker run -p 8080:80 -d -it holbertonschool/265-0
+
+# Check the container ID
+container_id=$(docker ps -q)
+
+# Connect to the container
+docker exec -u root -it "$container_id" /bin/bash
+
+# Fix permissions within the container
+chown -R www-data:www-data /var/www/html
+
+# Install Apache (if not already installed)
+apt-get update
+apt-get install -y apache2
+
+# Start Apache service
+service apache2 start
+
+# Display Apache service status
+service apache2 status
+
+# Display Apache error logs
+cat /var/log/apache2/error.log
+
+# Exit the container
+exit
+
+# Test with curl
+curl 0:8080
