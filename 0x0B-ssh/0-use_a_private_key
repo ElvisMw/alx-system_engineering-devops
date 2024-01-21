@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
-# Bash script that  uses ssh to connect to your server using the private key ~/.ssh/school.
+# Bash script that  uses ssh to connect to your server using the private key ~/.ssh/school
 ssh -i ~/.ssh/school -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@52.86.145.36
-
