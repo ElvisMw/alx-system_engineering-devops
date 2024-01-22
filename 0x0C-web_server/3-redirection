@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Define the path for redirection
+# Define the path for redirection.
 redirect_path="/redirect_me"
 
 # Configure Nginx redirection

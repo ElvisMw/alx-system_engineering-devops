@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Fix Apache to return a page containing Hello Holberton
+# Fix Apache to return a page containing Hello Holberton.
 
 # Start the Docker container in interactive mode
 docker run -p 8080:80 -d -it holbertonschool/265-0

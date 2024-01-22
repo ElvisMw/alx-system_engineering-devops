@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Define the path for the custom 404 page
+# Define the path for the custom 404 page.
 not_found_path="/custom_404"
 
 # Configure Nginx for custom 404 page
