@@ -1,21 +1,36 @@
 #!/usr/bin/env bash
-# Update package list and install nginx.
-sudo apt-get update -y
-sudo apt-get upgrade -y
-sudo apt-get install nginx -y
+# webserver
 
-# Configure nginx to listen on port 80
-sudo sed -i 's/listen 80;/listen 80 default_server;/g' /etc/nginx/sites-available/default
+# colors
+blue='\e[1;34m'
+brown='\e[0;33m'
+green='\e[1;32m'
+reset='\033[0m'
 
-# Restart nginx (without using systemctl)
+echo -e "${blue}Updating and installing ${brown}Nginx${blue}.${reset}\n"
+sudo apt-get update -y -qq && \
+     sudo apt-get install nginx -y
+
+echo -e "\n${blue}Setting up some minor stuff.${reset}\n"
+
+# start nginx service
+sudo service nginx start
+
+# nginx pass firewall
+sudo ufw allow 'Nginx HTTP'
+
+# change user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# to backup default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Create new index
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+
+# Restart nginx
 sudo service nginx restart
 
-# Create a simple HTML file with "Hello World!"
-echo "Hello World!" | sudo tee /var/www/html/index.html
+echo -e "\n${green}Completed.${reset} \n"
 
-# Verify nginx is serving the correct page
-if curl -sI localhost | grep -q "200 OK"; then
-    echo "Nginx is configured successfully."
-else
-    echo "Nginx configuration failed."
-fi
