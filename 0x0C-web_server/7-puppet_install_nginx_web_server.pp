@@ -11,17 +11,13 @@ file { '/etc/nginx/sites-available/default':
   content => "server {
                 listen 80;
                 server_name _;
-                
-                location / {
-                    return 301 /redirect_me;
-                }
-                
+
                 location /redirect_me {
-                    return 301 http://$hostname/;
+                    return 301 http://\$hostname/;
                 }
-                
+
                 location / {
-                    add_header X-Served-By $hostname;
+                    add_header X-Served-By \$hostname;
                     return 200 'Hello World!';
                 }
             }",
