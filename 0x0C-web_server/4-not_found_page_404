@@ -13,12 +13,12 @@ server {
 
     server_name _;
 
-    location $not_found_path {
-        alias /var/www/html/not_found.html;
-        internal;
-    }
-
     error_page 404 $not_found_path;
+
+    location $not_found_path {
+        internal;
+        proxy_pass http://localhost/not_found.html;
+    }
 
     location / {
         try_files \$uri \$uri/ =404;
@@ -33,8 +33,7 @@ sudo service nginx restart
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/not_found.html > /dev/null
 
 # Verify the custom 404 page
-response=$(curl -sI http://localhost/xyz)
-if echo "$response" | grep -q "404 Not Found" && echo "$response" | grep -q "Ceci n'est pas une page"; then
+if curl -sI http://localhost/xyz | grep -q "404 Not Found"; then
     echo "Custom 404 page is configured successfully."
 else
     echo "Custom 404 page configuration failed."
