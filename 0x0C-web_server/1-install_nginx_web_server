@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# webserver
+# Tisonfigures a new ubuntu machine by installing
 
 # colors
 blue='\e[1;34m'
@@ -9,28 +9,27 @@ reset='\033[0m'
 
 echo -e "${blue}Updating and installing ${brown}Nginx${blue}.${reset}\n"
 sudo apt-get update -y -qq && \
-     sudo apt-get install nginx -y
+	 sudo apt-get install nginx -y
 
 echo -e "\n${blue}Setting up some minor stuff.${reset}\n"
 
-# start nginx service
+# starting nginx service
 sudo service nginx start
 
-# nginx pass firewall
+# allowing nginx on firewall
 sudo ufw allow 'Nginx HTTP'
 
-# change user ownership to website files for easy editing
+# Changeuser ownership to website files for easy editing
 sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www
 
-# to backup default index
+# Backup default index
 cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
-# Create new index
+# Creating new index
 echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
-# Restart nginx
+# Restarting nginx
 sudo service nginx restart
 
 echo -e "\n${green}Completed.${reset} \n"
-
