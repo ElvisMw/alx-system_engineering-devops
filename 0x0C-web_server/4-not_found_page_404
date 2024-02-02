@@ -13,12 +13,12 @@ server {
 
     server_name _;
 
-    error_page 404 $not_found_path;
-
     location $not_found_path {
+        alias /var/www/html/not_found.html;
         internal;
-        proxy_pass http://localhost/not_found.html;
     }
+
+    error_page 404 $not_found_path;
 
     location / {
         try_files \$uri \$uri/ =404;
