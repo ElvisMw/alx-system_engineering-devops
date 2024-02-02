@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This allows instalation of nginx
 
-# colors
+# colour representation
 blue='\e[1;34m'
 brown='\e[0;33m'
 green='\e[1;32m'
@@ -13,23 +13,23 @@ sudo apt-get update -y -qq && \
 
 echo -e "\n${blue}Setting up some minor stuff.${reset}\n"
 
-# starting nginx service
+# starts nginx service
 sudo service nginx start
 
-# allowing nginx on firewall
+# nginx to firewall
 sudo ufw allow 'Nginx HTTP'
 
-# Changeuser ownership to website files for easy editing
+# Change user ownership to website files for easy editing
 sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 755 /var/www
 
 # Backup default index
 cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
 
-# Creating new index
+# Creats new index
 echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
-# Restarting nginx
+# Restart nginx
 sudo service nginx restart
 
 echo -e "\n${green}Completed.${reset} \n"
