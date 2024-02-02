@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tisonfigures a new ubuntu machine by installing
+# This allows instalation of nginx
 
 # colors
 blue='\e[1;34m'
