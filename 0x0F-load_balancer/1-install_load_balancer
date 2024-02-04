@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# load balancer server
+#Installs and configures HAproxy in a load balancer server
 
 apt-get install -y software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-1.8
@@ -33,8 +33,8 @@ listen hbnb
     balance roundrobin
     option httpclose
     option forwardfor
-    server 325871-web-01 54.160.85.72:80 check
-    server 325871-web-02 35.175.132.106:80 check
+    server 325871-web-01 52.91.202.143 check
+    server 325871-web-02 54.160.74.210 check
 " >> /etc/haproxy/haproxy.cfg
 
 service haproxy start
