@@ -14,7 +14,7 @@ echo -e "${blue}Updating and doing some minor checks...${reset}\n"
 function install() {
 	command -v "$1" &> /dev/null
 
-	# to diable shellcheck SC2181
+	# to disable shellcheck SC2181
 	if [ $? -ne 0 ]; then
 		echo -e "	Installing: ${brown}$1${reset}\n"
 		sudo apt-get update -y -qq && \
