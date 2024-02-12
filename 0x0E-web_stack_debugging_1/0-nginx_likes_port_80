@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# fix nginx listening on port 80
+# repair nginx listening on port 80
 
 cd /etc/nginx/sites-enabled/ || exit;
 # remove default file
