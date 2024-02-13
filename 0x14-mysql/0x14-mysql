@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Specify the MySQL version
+MYSQL_VERSION="5.7.25"
+
+# Update the package list
+sudo apt-get update
+
+# Install dependencies
+sudo apt-get install -y libedit2
+
+# Download and install MySQL 5.7.25
+wget https://dev.mysql.com/get/mysql-5.7.25-linux-glibc2.12-x86_64.tar.gz
+tar -xvf mysql-5.7.25-linux-glibc2.12-x86_64.tar.gz
+sudo mv mysql-5.7.25-linux-glibc2.12-x86_64 /usr/local/mysql
+
+# Create a symbolic link for convenience
+sudo ln -s /usr/local/mysql/bin/mysql /usr/local/bin/mysql
+
+# Initialize the MySQL data directory
+sudo /usr/local/mysql/bin/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/var/lib/mysql
+
+# Start the MySQL service
+sudo /usr/local/mysql/support-files/mysql.server start
+
+# Secure the MySQL installation
+sudo /usr/local/mysql/bin/mysql_secure_installation
+
+# Clean up
+rm mysql-5.7.25-linux-glibc2.12-x86_64.tar.gz
+
+echo "MySQL $MYSQL_VERSION has been installed successfully."
