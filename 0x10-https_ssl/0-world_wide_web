@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# This script displays information about subdomains of a given domain.
+
+# Function to get DNS information for a subdomain
+get_dns_info() {
+    domain=$1
+    subdomain=$2
+    dig_output=$(dig "${subdomain}.${domain}" | grep -A1 'ANSWER SECTION:')
+    record_type=$(echo "${dig_output}" | awk '/IN/ {print $4}')
+    destination=$(echo "${dig_output}" | awk '/IN/ {print $5}')
+    echo "The subdomain ${subdomain} is a ${record_type} record and points to ${destination}"
+}
+
+# Main script
+domain=$1
+subdomain=$2
+
+if [ -z "${subdomain}" ]; then
+    # Display information for default subdomains
+    subdomains=("www" "lb-01" "web-01" "web-02")
+    for sub in "${subdomains[@]}"; do
+        get_dns_info "${domain}" "${sub}"
+    done
+else
+    # Display information for the specified subdomain
+    get_dns_info "${domain}" "${subdomain}"
+fi
+
