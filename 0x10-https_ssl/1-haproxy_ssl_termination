@@ -1,0 +1,22 @@
+
+defaults
+  mode http
+  timeout client 15s
+  timeout connect 10s
+  timeout server 15s
+  timeout http-request 10s
+
+frontend eltty-tech-frontend
+    bind *:80
+    default_backend eltty-tech-backend
+
+backend eltty-tech-backend
+    balance roundrobin
+    server 325871-web-01 100.25.135.254:80 check
+    server 325871-web-02 54.160.74.210:80 check
+
+
+frontend  eltty.tech-https-frontend
+        bind *:443 ssl crt /etc/letsencrypt/live/www.eltty.tech/www.eltty.tech.pem
+        http-request set-header X-Forwarded-Proto https
+        default_backend eltty-tech-backend
