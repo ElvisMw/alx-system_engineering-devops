@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Check if the correct number of arguments is provided
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <mysql_password>"
+    exit 1
+fi
+
+# MySQL database credentials
+DB_USER="root"
+DB_PASSWORD_FILE="/home/ubuntu"
+BACKUP_DIR="/home/ubuntu"
+BACKUP_FILE="backup.sql"
+TAR_FILE="$(date +'%d-%m-%Y').tar.gz"
+
+# Create MySQL dump
+mysqldump --defaults-extra-file="$DB_PASSWORD_FILE" --all-databases > "$BACKUP_DIR/$BACKUP_FILE"
+
+# Check if mysqldump was successful
+if [ $? -eq 0 ]; then
+    # Compress the MySQL dump into a tar.gz archive
+    tar -czvf "$BACKUP_DIR/$TAR_FILE" -C "$BACKUP_DIR" "$BACKUP_FILE"
+    
+    # Remove the original dump file
+    rm "$BACKUP_DIR/$BACKUP_FILE"
+
+    echo "MySQL backup completed successfully. Archive: $BACKUP_DIR/$TAR_FILE"
+else
+    echo "Error: MySQL backup failed."
+fi
+
