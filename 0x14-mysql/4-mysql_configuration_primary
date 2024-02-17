@@ -1,0 +1,14 @@
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+symbolic-links=0
+bind-address=0.0.0.0
+
+server-id=1
+log_bin=/var/log/mysql/mysql-bin.log
+log_bin_index=/var/log/mysql/mysql-bin.index
+relay_log=/var/log/mysql/mysql-relay-bin
+relay_log_index=/var/log/mysql/mysql-relay-bin.index
+auto-increment-increment=1
+auto-increment-offset=1
+
