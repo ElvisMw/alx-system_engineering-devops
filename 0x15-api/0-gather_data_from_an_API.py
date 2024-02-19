@@ -27,11 +27,13 @@ def get_todo_progress(employee_id):
 
         """ Calculate progress"""
         total_tasks = len(todos_data)
-        completed_tasks = [task for task in todos_data if task.get("completed")]
+        completed_tasks = [
+            task for task in todos_data if task.get("completed")]
         num_completed_tasks = len(completed_tasks)
 
         """ Display progress"""
-        print(f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
+        print(
+            f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
         for task in completed_tasks:
             print(f"\t{task.get('title')}")
 
