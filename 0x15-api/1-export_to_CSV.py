@@ -1,45 +1,63 @@
 #!/usr/bin/python3
 """
-Export tasks of a specific employee to a CSV file.
+Retrieve TODO list progress for a given employee ID from
+a REST API and export to CSV.
 """
 
 import csv
 import requests
-from sys import argv
+import sys
+
+
+def get_todo_progress(employee_id):
+    """
+    Retrieve TODO list progress for the specified employee ID.
+    Export data to CSV with format: "USER_ID","USERNAME",
+    "TASK_COMPLETED_STATUS","TASK_TITLE".
+    """
+    base_url = "https://jsonplaceholder.typicode.com"
+    user_url = f"{base_url}/users/{employee_id}"
+    todos_url = f"{base_url}/todos?userId={employee_id}"
+
+    try:
+        # Fetch user information
+        user_response = requests.get(user_url)
+        user_data = user_response.json()
+        employee_name = user_data.get("name")
+
+        # Fetch TODO list information
+        todos_response = requests.get(todos_url)
+        todos_data = todos_response.json()
+
+        # Calculate progress
+        total_tasks = len(todos_data)
+        completed_tasks = [task for task in todos_data if task.get("completed")]
+        num_completed_tasks = len(completed_tasks)
+
+        # Display progress
+        print(f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
+        for task in completed_tasks:
+            print(f"\t{task.get('title')}")
+
+        # Export to CSV
+        csv_filename = f"{employee_id}.csv"
+        with open(csv_filename, mode='w', newline='') as csv_file:
+            csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
+            csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+            for task in todos_data:
+                csv_writer.writerow([employee_id, employee_name, str(task.get('completed')), task.get('title')])
+
+        print(f"Data exported to {csv_filename}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    if len(argv) != 2:
-        print("Usage: {} <employee_id>".format(argv[0]))
-        exit(1)
+    if len(sys.argv) != 2:
+        print("Usage: python3 script.py <employee_id>")
+        sys.exit(1)
 
-    employee_id = argv[1]
-
-    """ API endpoint for tasks"""
-    api_url = "https://jsonplaceholder.typicode.com/todos"
-
-    """" Retrieve tasks from the API"""
-    response = requests.get(api_url, params={"userId": employee_id})
-    tasks = response.json()
-
-    """ CSV file name"""
-    csv_filename = "{}.csv".format(employee_id)
-
-    """ Write tasks to CSV"""
-    with open(csv_filename, mode="w", newline="", encoding="utf-8") as csvfile:
-        fieldnames = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-        """ Write header"""
-        writer.writeheader()
-
-        """ Write tasks"""
-        for task in tasks:
-            writer.writerow({
-                "USER_ID": employee_id,
-                "USERNAME": task["title"].split()[0],
-                "TASK_COMPLETED_STATUS": str(task["completed"]),
-                "TASK_TITLE": task["title"]
-            })
-
-    print("Tasks exported to {}".format(csv_filename))
+    employee_id = int(sys.argv[1])
+    get_todo_progress(employee_id)
