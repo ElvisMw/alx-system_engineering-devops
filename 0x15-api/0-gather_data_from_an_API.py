@@ -1,24 +1,22 @@
 #!/usr/bin/python3
-"""This Python module (`gather_data_from_an_API.py`) retrieves &
+"""This Python module (`gather_data_from_an_API.py`) retrieves and
 displays information about an employee's
-TODO list progress using a REST API"""
+TODO list progress using a REST API."""
 import requests
 from sys import argv
 
 
 def get_employee_data(employee_id):
+    """Fetch user data and calculate progress."""
     base_url = "https://jsonplaceholder.typicode.com"
 
-    """To fetch user data"""
     user_response = requests.get(f"{base_url}/users/{employee_id}")
     user_data = user_response.json()
     employee_name = user_data.get("name")
 
-    """To fetch user's TODO list"""
     todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
     todos_data = todos_response.json()
 
-    """To calculate progress"""
     total_tasks = len(todos_data)
     completed_tasks = [task for task in todos_data if task.get("completed")]
     num_completed_tasks = len(completed_tasks)
@@ -27,7 +25,9 @@ def get_employee_data(employee_id):
 
 
 def display_progress(employee_name, num_completed_tasks, total_tasks, completed_tasks):
-    print(f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
+    """Display progress information."""
+    print(f"Employee {employee_name} is done with tasks("
+          f"{num_completed_tasks}/{total_tasks}):")
 
     for task in completed_tasks:
         print(f"\t{task['title']}")
@@ -35,7 +35,7 @@ def display_progress(employee_name, num_completed_tasks, total_tasks, completed_
 
 if __name__ == "__main__":
     if len(argv) != 2:
-        print("Usage: python3 script_name.py <employee_id>")
+        print("Usage: ./gather_data_from_an_API.py <employee_id>")
     else:
         employee_id = argv[1]
         try:
