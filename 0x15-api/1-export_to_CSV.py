@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
-Retrieve TODO list progress for a given employee ID from
-a REST API and export to CSV.
+Retrieve TODO list progress for a given employee ID from a 
+REST API and export to CSV.
 """
 
 import csv
