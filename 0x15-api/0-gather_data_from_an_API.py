@@ -3,8 +3,8 @@
 Retrieve TODO list progress for a given employee ID from a REST API.
 """
 
-import sys
 import requests
+import sys
 
 def get_todo_progress(employee_id):
     """
