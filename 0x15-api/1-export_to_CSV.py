@@ -33,12 +33,12 @@ def export_to_csv(employee_id):
         csv_data = []
         for task in todos_data:
             task_completed_status = str(task.get("completed"))
-            task_title = task.get("title").strip()  # Remove leading and trailing whitespace
+            task_title = task.get("title")
             csv_data.append([str(user_id), username, task_completed_status, task_title])
 
         """ Export to CSV file"""
         filename = f"{user_id}.csv"
-        with open(filename, mode='w', newline='') as csv_file:
+        with open(filename, mode='w', newline='', encoding='utf-8') as csv_file:
             csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
             csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
             csv_writer.writerows(csv_data)
