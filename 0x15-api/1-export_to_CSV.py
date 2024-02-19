@@ -4,9 +4,9 @@ Retrieve TODO list progress for a given employee
 ID from a REST API and export to CSV.
 """
 
+import csv
 import requests
 import sys
-import csv
 
 
 def export_to_csv(employee_id):
