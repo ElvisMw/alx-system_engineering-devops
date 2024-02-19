@@ -1,36 +1,59 @@
 #!/usr/bin/python3
 """
-Check student .CSV output of user information
+Retrieve TODO list progress for a given employee
+ID from a REST API and export to CSV.
 """
 
 import csv
 import requests
 import sys
 
-users_url = "https://jsonplaceholder.typicode.com/users?id="
-todos_url = "https://jsonplaceholder.typicode.com/todos"
 
+def export_to_csv(employee_id):
+    """
+    Retrieve TODO list progress for the specified
+    employee ID and export to CSV.
+    """
+    base_url = "https://jsonplaceholder.typicode.com"
+    user_url = f"{base_url}/users/{employee_id}"
+    todos_url = f"{base_url}/todos?userId={employee_id}"
 
-def user_info(id):
-    """ Check user information """
+    try:
+        """ To fetch user information"""
+        user_response = requests.get(user_url)
+        user_data = user_response.json()
+        user_id = user_data.get("id")
+        username = user_data.get("username")
 
-    total_tasks = 0
-    response = requests.get(todos_url).json()
-    for i in response:
-        if i['userId'] == id:
-            total_tasks += 1
+        """ To fetch TODO list information"""
+        todos_response = requests.get(todos_url)
+        todos_data = todos_response.json()
 
-    num_lines = 0
-    with open(str(id) + ".csv", 'r') as f:
-        for line in f:
-            if line.strip('\n'):
-                num_lines += 1
+        """ Prepare CSV data"""
+        csv_data = []
+        for task in todos_data:
+            task_completed_status = str(task.get("completed"))
+            task_title = task.get("title").strip()  # Remove leading and trailing whitespace
+            csv_data.append([str(user_id), username, task_completed_status, task_title])
 
-    if total_tasks == num_lines:
-        print("Number of tasks in CSV: OK")
-    else:
-        print("Number of tasks in CSV: Incorrect")
+        """ Export to CSV file"""
+        filename = f"{user_id}.csv"
+        with open(filename, mode='w', newline='', encoding='utf-8') as csv_file:
+            csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
+            csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+            csv_writer.writerows(csv_data)
+
+        print(f"Data exported to {filename}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    user_info(int(sys.argv[1]))
+    if len(sys.argv) != 2:
+        print("Usage: python3 script.py <employee_id>")
+        sys.exit(1)
+
+    employee_id = int(sys.argv[1])
+    export_to_csv(employee_id)
