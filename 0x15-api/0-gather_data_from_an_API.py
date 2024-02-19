@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-
+"""This Python module (`gather_data_from_an_API.py`) retrieves &
+displays information about an employee's
+TODO list progress using a REST API"""
 import requests
 from sys import argv
 
