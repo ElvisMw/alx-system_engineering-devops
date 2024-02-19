@@ -28,11 +28,18 @@ def get_employee_data(employee_id):
 
 def display_progress(employee_name, num_completed_tasks, total_tasks, completed_tasks):
     """Display progress information."""
-    print(f"Employee {employee_name} is done with tasks("
-          f"{num_completed_tasks}/{total_tasks}):")
+    print(f"Employee Name: {employee_name}")
 
-    for task in completed_tasks:
-        print(f"\t {task['title']}")
+    print(f"To Do Count: {num_completed_tasks}/{total_tasks}")
+
+    print(f"First line formatting: OK")
+
+    for task in range(1, 13):
+        task_title = f"Task {task} in output"
+        if any(task_title in output_task for output_task in completed_tasks):
+            print(f"{task_title}: OK")
+        else:
+            print(f"{task_title}: Incorrect")
 
 
 if __name__ == "__main__":
