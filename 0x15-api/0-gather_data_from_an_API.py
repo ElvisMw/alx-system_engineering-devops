@@ -1,7 +1,9 @@
 #!/usr/bin/python3
-"""This Python module (`gather_data_from_an_API.py`) retrieves and
+"""
+This Python module (`gather_data_from_an_API.py`) retrieves and
 displays information about an employee's
-TODO list progress using a REST API."""
+TODO list progress using a REST API.
+"""
 import requests
 from sys import argv
 
@@ -30,7 +32,7 @@ def display_progress(employee_name, num_completed_tasks, total_tasks, completed_
           f"{num_completed_tasks}/{total_tasks}):")
 
     for task in completed_tasks:
-        print(f"\t{task['title']}")
+        print(f"\t {task['title']}")
 
 
 if __name__ == "__main__":
