@@ -1,54 +1,47 @@
 #!/usr/bin/python3
 """
-This Python module (`gather_data_from_an_API.py`) retrieves and
-displays information about an employee's
-TODO list progress using a REST API.
+Retrieve TODO list progress for a given employee ID from a REST API.
 """
+
+import sys
 import requests
-from sys import argv
 
-
-def get_employee_data(employee_id):
-    """Fetch user data and calculate progress."""
+def get_todo_progress(employee_id):
+    """
+    Retrieve and display TODO list progress for the specified employee ID.
+    """
     base_url = "https://jsonplaceholder.typicode.com"
+    user_url = f"{base_url}/users/{employee_id}"
+    todos_url = f"{base_url}/todos?userId={employee_id}"
 
-    user_response = requests.get(f"{base_url}/users/{employee_id}")
-    user_data = user_response.json()
-    employee_name = user_data.get("name")
+    try:
+        """ To fetch user information"""
+        user_response = requests.get(user_url)
+        user_data = user_response.json()
+        employee_name = user_data.get("name")
 
-    todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
-    todos_data = todos_response.json()
+        """ To fetch TODO list information"""
+        todos_response = requests.get(todos_url)
+        todos_data = todos_response.json()
 
-    total_tasks = len(todos_data)
-    completed_tasks = [task for task in todos_data if task.get("completed")]
-    num_completed_tasks = len(completed_tasks)
+        """ Calculate progress"""
+        total_tasks = len(todos_data)
+        completed_tasks = [task for task in todos_data if task.get("completed")]
+        num_completed_tasks = len(completed_tasks)
 
-    return employee_name, num_completed_tasks, total_tasks, completed_tasks
+        """ Display progress"""
+        print(f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
+        for task in completed_tasks:
+            print(f"\t{task.get('title')}")
 
-
-def display_progress(employee_name, num_completed_tasks, total_tasks, completed_tasks):
-    """Display progress information."""
-    print(f"Employee Name: {employee_name}")
-
-    print(f"To Do Count: {num_completed_tasks}/{total_tasks}")
-
-    print(f"First line formatting: OK")
-
-    for task in range(1, 13):
-        task_title = f"Task {task} in output"
-        if any(task_title in output_task for output_task in completed_tasks):
-            print(f"{task_title}: OK")
-        else:
-            print(f"{task_title}: Incorrect")
-
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
-    if len(argv) != 2:
-        print("Usage: ./gather_data_from_an_API.py <employee_id>")
-    else:
-        employee_id = argv[1]
-        try:
-            employee_name, num_completed_tasks, total_tasks, completed_tasks = get_employee_data(int(employee_id))
-            display_progress(employee_name, num_completed_tasks, total_tasks, completed_tasks)
-        except ValueError:
-            print("Invalid employee ID. Please provide a valid integer.")
+    if len(sys.argv) != 2:
+        print("Usage: python3 script.py <employee_id>")
+        sys.exit(1)
+
+    employee_id = int(sys.argv[1])
+    get_todo_progress(employee_id)
