@@ -16,17 +16,11 @@ def number_of_subscribers(subreddit):
 
     response = requests.get(url, headers=headers)
 
-    """ Check if the request was successful (status code 200)"""
     if response.status_code == 200:
         data = response.json()
-
-        """Check if 'data' and 'subscribers' keys exist in the response"""
         if 'data' in data and 'subscribers' in data['data']:
             return data['data']['subscribers']
         else:
-            """If the structure of the response is unexpected, return 0"""
             return 0
     else:
-        """If the subreddit is invalid or any other error occurs, return 0"""
         return 0
-
