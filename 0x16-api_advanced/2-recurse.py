@@ -4,6 +4,7 @@
 """
 import requests
 
+
 def recurse(subreddit, hot_list=[], after=None):
     """
     Recursive function that queries the Reddit API and returns a list
@@ -11,7 +12,8 @@ def recurse(subreddit, hot_list=[], after=None):
 
     Args:
     - subreddit (str): The name of the subreddit.
-    - hot_list (list): List to store the titles of hot articles (default is an empty list).
+    - hot_list (list): List to store the titles of
+    hot articles (default is an empty list).
     - after (str): The 'after' parameter for pagination (default is None).
 
     Returns:
@@ -21,7 +23,8 @@ def recurse(subreddit, hot_list=[], after=None):
     headers = {'User-Agent': 'my-app/0.0.1'}
     params = {'limit': 100, 'after': after} if after else {'limit': 100}
 
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:

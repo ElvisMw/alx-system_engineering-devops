@@ -4,6 +4,7 @@
 """
 import requests
 
+
 def count_words(subreddit, word_list, after=None, counts=None):
     """
     Recursive function that queries the Reddit API, parses the title
@@ -13,7 +14,8 @@ def count_words(subreddit, word_list, after=None, counts=None):
     - subreddit (str): The name of the subreddit.
     - word_list (list): List of keywords to count.
     - after (str): The 'after' parameter for pagination (default is None).
-    - counts (dict): Dictionary to store the counts of each keyword (default is None).
+    - counts (dict): Dictionary to store the counts of
+    each keyword (default is None).
 
     Returns:
     - None: Prints the sorted count of keywords.
@@ -25,7 +27,8 @@ def count_words(subreddit, word_list, after=None, counts=None):
     headers = {'User-Agent': 'my-app/0.0.1'}
     params = {'limit': 100, 'after': after} if after else {'limit': 100}
 
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+    response = requests.get(url, headers=headers,
+                            params=params, allow_redirects=False)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
@@ -38,7 +41,8 @@ def count_words(subreddit, word_list, after=None, counts=None):
             for word in word_list:
                 word_lower = word.lower()
                 if word_lower in title:
-                    counts[word_lower] = counts.get(word_lower, 0) + title.count(word_lower)
+                    counts[word_lower] = counts.get(word_lower, 0)
+                    + title.count(word_lower)
 
         # Recursive call with the 'after' parameter for pagination
         after = data.get('after')
