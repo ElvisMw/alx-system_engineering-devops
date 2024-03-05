@@ -12,6 +12,7 @@ Requirements:
 
 import requests
 
+
 def top_ten(subreddit):
     """
     Function that queries the Reddit API and prints the titles
@@ -30,9 +31,9 @@ def top_ten(subreddit):
     params = {
         "limit": 10
     }
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+    response = requests.get(url, headers=headers,
+                            params=params, allow_redirects=False)
 
-    """Check if the request was successful (status code 200)"""
     if response.status_code == 404:
         print("None")
         return
@@ -43,6 +44,7 @@ def top_ten(subreddit):
     """Print titles of the first 10 hot posts"""
     [print(c.get("data").get("title")) for c in results.get("children")]
 
+
 if __name__ == '__main__':
     import sys
 
@@ -50,4 +52,3 @@ if __name__ == '__main__':
         print("Please pass an argument for the subreddit to search.")
     else:
         top_ten(sys.argv[1])
-
