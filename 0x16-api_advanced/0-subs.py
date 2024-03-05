@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """
-0-subs
+Script that queries subscribers on a given Reddit subreddit.
 """
-import requests
 
+import requests
 
 def number_of_subscribers(subreddit):
     """
@@ -11,10 +11,9 @@ def number_of_subscribers(subreddit):
     of subscribers for a given subreddit.
     If an invalid subreddit is given, the function should return 0.
     """
-    url = f'https://www.reddit.com/r/{subreddit}/about.json'
-    headers = {'User-Agent': 'my-app/0.0.1'}
-
-    response = requests.get(url, headers=headers)
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {"User-Agent": "Mozilla/5.0"}
+    response = requests.get(url, headers=headers, allow_redirects=False)
 
     """Check if the request was successful (status code 200)"""
     if response.status_code == 200:
@@ -29,12 +28,3 @@ def number_of_subscribers(subreddit):
     else:
         """If the subreddit is invalid or any other error occurs, return 0"""
         return 0
-
-
-if __name__ == '__main__':
-    import sys
-
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
-    else:
-        print("{:d}".format(number_of_subscribers(sys.argv[1])))
