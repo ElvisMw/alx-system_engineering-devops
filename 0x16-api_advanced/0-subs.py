@@ -4,6 +4,7 @@
 """
 import requests
 
+
 def number_of_subscribers(subreddit):
     """
     Function that queries the Reddit API and returns the number
@@ -28,6 +29,7 @@ def number_of_subscribers(subreddit):
     else:
         """If the subreddit is invalid or any other error occurs, return 0"""
         return 0
+
 
 if __name__ == '__main__':
     import sys
