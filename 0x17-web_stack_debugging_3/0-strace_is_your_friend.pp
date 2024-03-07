@@ -17,3 +17,10 @@ service { 'apache2':
   ensure    => 'running',
   subscribe => Exec['fix-apache-configuration'],
 }
+
+# Define an exec resource to reload Apache to apply the changes
+exec { 'reload-apache':
+  command     => '/usr/sbin/service apache2 reload',
+  path        => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+  refreshonly => true,
+}
