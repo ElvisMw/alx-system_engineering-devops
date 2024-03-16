@@ -1,29 +1,13 @@
-# Puppet manifest to optimize Nginx configuration
+# Puppet manifest to optimize Nginx configuration for handling increased traffic load.
 
-# Install Nginx package
-package { 'nginx':
-  ensure => installed,
+# Adjust the ULIMIT setting to increase Nginx's file descriptor limit
+exec { 'adjust-nginx-ulimit':
+  command => '/bin/sed -i "s/15/4096/" /etc/default/nginx',
+  path    => '/usr/local/bin/:/bin/',
 }
 
-# Manage Nginx configuration file
-file { '/etc/nginx/nginx.conf':
-  ensure  => file,
-  source  => 'puppet:///modules/nginx/nginx.conf',
-  require => Package['nginx'],
-  notify  => Service['nginx'],
-}
-
-# Manage Nginx service
-service { 'nginx':
-  ensure  => running,
-  enable  => true,
-  require => Package['nginx'],
-}
-
-# Define Nginx site configuration
-file { '/etc/nginx/sites-available/default':
-  ensure  => file,
-  content => template('nginx/default.conf.erb'),
-  require => Package['nginx'],
-  notify  => Service['nginx'],
+# Nginx service restart to apply the configuration changes
+exec { 'restart-nginx':
+  command => '/etc/init.d/nginx restart',
+  path    => '/etc/init.d/',
 }
